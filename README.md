@@ -1,4 +1,4 @@
-# 🏫 School Project: Object Image Processing using OpenCV
+# 🏫 School Project: 📷 Object Image Processing using OpenCV
 
 ## 📊 Overview
 
