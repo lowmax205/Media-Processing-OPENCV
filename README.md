@@ -1,4 +1,5 @@
-# 🏫 School Project: Object Image Processing using OpenCV
+# 🏫 School Project: ![bird-sample](https://github.com/user-attachments/assets/780fa190-bf63-488a-9214-7bff031095da)
+ Object Image Processing using OpenCV
 
 ## 📊 Overview
 
