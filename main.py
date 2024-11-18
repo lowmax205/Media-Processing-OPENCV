@@ -3,11 +3,19 @@ from tkinter import filedialog, messagebox, ttk
 import customtkinter as ctk
 
 
+def rescale_frame(frame, scale=0.50):
+    width = int(frame.shape[1] * scale)
+    height = int(frame.shape[0] * scale)
+    dimensions = (width, height)
+    return cv2.resize(frame, dimensions, interpolation=cv2.INTER_AREA)
+
+
 def process_image(file_path):
     image = cv2.imread(file_path)
     if image is None:
         messagebox.showerror("Error", f"Unable to load the image: {file_path}")
     else:
+        image = rescale_frame(image)
         cv2.imshow("Processed Image", image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
@@ -20,10 +28,11 @@ def process_video(file_path):
     else:
         while cap.isOpened():
             ret, frame = cap.read()
-            # if not ret:
-            #     break
+            if not ret:
+                break
+            frame = rescale_frame(frame)
             cv2.imshow("Processed Video", frame)
-            if cv2.waitKey(25) & 0xFF == ord("d"):
+            if cv2.waitKey(20) & 0xFF == ord("d"):
                 break
         cap.release()
         cv2.destroyAllWindows()
