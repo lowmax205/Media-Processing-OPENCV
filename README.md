@@ -22,17 +22,6 @@ Welcome to **Object Image Processing**, a program to recognize objects using Ope
 - Arduino (optional)
 - Webcam (optional)
 
-## 🚀 Setup Instructions
-
-1. Clone the repository:
-2. Navigate to the project directory:
-3. Install the required dependencies:
-4. Connect your camera module (Arduino or webcam).
-5. Run the program
-
-## 📚 Documentation
-For detailed documentation, please refer to the Wiki.
-
 ## 🤝 Contributing
 Contributions are welcome! Please read the contributing guidelines first.
 
