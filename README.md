@@ -17,7 +17,6 @@ Welcome to **Object Image Processing**, a program to recognize objects using Ope
 
 ## 🛠 Requirements
 
-- Python 3.x
 - OpenCV library
 - Arduino (optional)
 - Webcam (optional)
