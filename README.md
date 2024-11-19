@@ -4,6 +4,9 @@
 
 Welcome to **Object Image Processing**, a program to recognize objects using OpenCV modules with the help of a camera module from an Arduino or a webcam.
 
+![Status](https://img.shields.io/badge/Status-Ongoing-orange?style=for-the-badge)
+
+---
 ## ✨ Features
 
 - Object detection and recognition
