@@ -49,48 +49,47 @@ class ImageProcessingApp:
     def _on_file_type_change(self, _):
         self.file_path = None
         self.file_label.configure(text="No file selected")
-        if self.option_var.get() == "Webcam":
-            self.upload_button.configure(state="disabled")
-        else:
-            self.upload_button.configure(state="normal")
+        self.upload_button.configure(state="normal")
 
     def _upload_file(self):
-        filetypes = (
-            [("Images", "*.jpg;*.jpeg;*.png")]
-            if self.option_var.get() == "Image"
-            else [("Videos", "*.mp4;*.avi")]
-        )
-        self.file_path = filedialog.askopenfilename(filetypes=filetypes)
-        if self.file_path:
-            self.file_label.configure(text=f"File selected: {self.file_path}")
-            self.upload_button.configure(state="disabled")
+        if self.option_var.get() == "Webcam":
+            self.file_path = filedialog.askdirectory(title="Select Sample Folder")
+            if self.file_path:
+                self.file_label.configure(
+                    text=f"Sample folder selected: {self.file_path}"
+                )
+                self.upload_button.configure(state="disabled")
+            else:
+                self.file_label.configure(text="No sample folder selected")
         else:
-            self.file_label.configure(text="No file selected")
+            filetypes = (
+                [("Images", "*.jpg;*.jpeg;*.png")]
+                if self.option_var.get() == "Image"
+                else [("Videos", "*.mp4;*.avi")]
+            )
+            self.file_path = filedialog.askopenfilename(filetypes=filetypes)
+            if self.file_path:
+                self.file_label.configure(text=f"File selected: {self.file_path}")
+                self.upload_button.configure(state="disabled")
+            else:
+                self.file_label.configure(text="No file selected")
 
     def _process(self):
-        if self.option_var.get() == "Webcam":
-            img_sample_folder = filedialog.askdirectory(title="Select Sample Folder")
-            if not img_sample_folder:
-                messagebox.showerror("Error", "No sample folder selected")
-                return
-            try:
-                self.processor.process_webcam(img_sample_folder)
-            except ValueError as e:
-                messagebox.showerror("Error", str(e))
-        else:
-            if not self.file_path:
-                messagebox.showerror("Error", "No file selected")
-                return
+        if not self.file_path:
+            messagebox.showerror("Error", "No file selected")
+            return
 
-            try:
-                if self.option_var.get() == "Image":
-                    self.processor.process_image(self.file_path)
-                else:
-                    self.processor.process_video(self.file_path)
-                self.upload_button.configure(state="normal")
-            except ValueError as e:
-                messagebox.showerror("Error", str(e))
-                self.upload_button.configure(state="normal")
+        try:
+            if self.option_var.get() == "Image":
+                self.processor.process_image(self.file_path)
+            elif self.option_var.get() == "Video":
+                self.processor.process_video(self.file_path)
+            else:
+                self.processor.process_webcam(self.file_path)
+            self.upload_button.configure(state="normal")
+        except ValueError as e:
+            messagebox.showerror("Error", str(e))
+            self.upload_button.configure(state="normal")
 
     def run(self):
         self.app.mainloop()
