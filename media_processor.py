@@ -1,5 +1,6 @@
 import cv2
 
+
 class MediaProcessor:
     @staticmethod
     def rescale_frame(frame, scale: float = 0.50):
@@ -29,7 +30,7 @@ class MediaProcessor:
                     break
                 frame = MediaProcessor.rescale_frame(frame)
                 cv2.imshow("Processed Video", frame)
-                if cv2.waitKey(0) & 0xFF == ord("d"):
+                if cv2.waitKey(20) & 0xFF == ord("d"):
                     break
         finally:
             cap.release()

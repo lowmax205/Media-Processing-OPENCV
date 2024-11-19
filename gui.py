@@ -3,6 +3,7 @@ import customtkinter as ctk
 from typing import Optional
 from media_processor import MediaProcessor
 
+
 class ImageProcessingApp:
     BUTTON_WIDTH = 300
 
@@ -15,36 +16,33 @@ class ImageProcessingApp:
 
     def _create_widgets(self):
         self.file_label = ctk.CTkLabel(
-            self.app, 
-            text="No file selected", 
+            self.app,
+            text="No file selected",
             width=self.BUTTON_WIDTH,
-            wraplength=self.BUTTON_WIDTH - 20  # Add wrapping with some padding
+            wraplength=self.BUTTON_WIDTH - 20,
         )
         self.file_label.pack(pady=10, padx=10)
 
         self.option_var = ctk.StringVar(value="Image")
         self.option_menu = ctk.CTkOptionMenu(
-            self.app, 
-            variable=self.option_var, 
-            values=["Image", "Video"], 
+            self.app,
+            variable=self.option_var,
+            values=["Image", "Video"],
             width=self.BUTTON_WIDTH,
-            command=self._on_file_type_change
+            command=self._on_file_type_change,
         )
         self.option_menu.pack(pady=10)
 
         self.upload_button = ctk.CTkButton(
-            self.app, 
-            text="Upload Files", 
-            command=self._upload_file, 
-            width=self.BUTTON_WIDTH
+            self.app,
+            text="Upload Files",
+            command=self._upload_file,
+            width=self.BUTTON_WIDTH,
         )
         self.upload_button.pack(pady=10)
 
         self.process_button = ctk.CTkButton(
-            self.app, 
-            text="Process", 
-            command=self._process, 
-            width=self.BUTTON_WIDTH
+            self.app, text="Process", command=self._process, width=self.BUTTON_WIDTH
         )
         self.process_button.pack(pady=10)
 
@@ -54,7 +52,12 @@ class ImageProcessingApp:
         self.upload_button.configure(state="normal")
 
     def _upload_file(self):
-        self.file_path = filedialog.askopenfilename()
+        filetypes = (
+            [("Images", "*.jpg;*.jpeg;*.png")]
+            if self.option_var.get() == "Image"
+            else [("Videos", "*.mp4;*.avi")]
+        )
+        self.file_path = filedialog.askopenfilename(filetypes=filetypes)
         if self.file_path:
             self.file_label.configure(text=f"File selected: {self.file_path}")
             self.upload_button.configure(state="disabled")
