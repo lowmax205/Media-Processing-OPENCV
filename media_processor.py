@@ -1,4 +1,5 @@
 import cv2
+import os
 
 
 class MediaProcessor:
@@ -31,6 +32,29 @@ class MediaProcessor:
                 frame = MediaProcessor.rescale_frame(frame)
                 cv2.imshow("Processed Video", frame)
                 if cv2.waitKey(20) & 0xFF == ord("d"):
+                    break
+        finally:
+            cap.release()
+            cv2.destroyAllWindows()
+
+    @staticmethod
+    def process_webcam(img_sample_folder: str) -> None:
+        if not os.path.exists(img_sample_folder):
+            raise ValueError(f"Sample folder does not exist: {img_sample_folder}")
+
+        cap = cv2.VideoCapture(0)
+        if not cap.isOpened():
+            raise ValueError("Unable to access the webcam")
+
+        try:
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    break
+                frame = MediaProcessor.rescale_frame(frame)
+                # Add object recognition logic here using img_sample_folder
+                cv2.imshow("Webcam Feed", frame)
+                if cv2.waitKey(20) & 0xFF == ord("q"):
                     break
         finally:
             cap.release()
