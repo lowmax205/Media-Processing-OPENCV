@@ -40,6 +40,14 @@ class MediaProcessor:
             cv2.destroyAllWindows()
     
     # Resizing and Rescaling Frames
+    @staticmethod
+    def resize_or_rescale_frame(frame, should_rescale=False, scale=0.75, should_resize=False, width=None, height=None):
+        if should_rescale:
+            frame = MediaProcessor.rescale_frame(frame, scale)
+        if should_resize and width and height:
+            frame = MediaProcessor.resize_frame(frame, width, height)
+        return frame
+    
     # 3 Rescale
     @staticmethod
     def rescale_frame(frame, scale: float = 0.50):
@@ -51,14 +59,6 @@ class MediaProcessor:
     @staticmethod
     def resize_frame(frame, width, height):
         return cv2.resize(frame, (width, height), interpolation=cv2.INTER_AREA)
-
-    @staticmethod
-    def resize_or_rescale_frame(frame, should_rescale=False, scale=0.75, should_resize=False, width=None, height=None):
-        if should_rescale:
-            frame = MediaProcessor.rescale_frame(frame, scale)
-        if should_resize and width and height:
-            frame = MediaProcessor.resize_frame(frame, width, height)
-        return frame
 
     # Webcam Processing
     @staticmethod
