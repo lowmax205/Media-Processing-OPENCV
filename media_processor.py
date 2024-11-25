@@ -3,40 +3,64 @@ import os
 
 
 class MediaProcessor:
+    
+    # Reading Images & Video
+    # 1 Image Reading
     @staticmethod
-    def rescale_frame(frame, scale: float = 0.50):
-        width = int(frame.shape[1] * scale)
-        height = int(frame.shape[0] * scale)
-        return cv2.resize(frame, (width, height), interpolation=cv2.INTER_AREA)
-
-    @staticmethod
-    def process_image(file_path: str) -> None:
+    def process_image(file_path: str, should_rescale=False, scale=0.75, should_resize=False, width=None, height=None) -> None:
         image = cv2.imread(file_path)
         if image is None:
             raise ValueError(f"Unable to load the image: {file_path}")
-        image = MediaProcessor.rescale_frame(image)
+        image = MediaProcessor.resize_or_rescale_frame(image, should_rescale, scale, should_resize, width, height)
         cv2.imshow("Processed Image", image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
+    # 2 Reading Videos
     @staticmethod
-    def process_video(file_path: str) -> None:
+    def process_video(file_path: str, should_rescale=False, scale=0.75, should_resize=False, width=None, height=None) -> None:
         cap = cv2.VideoCapture(file_path)
         if not cap.isOpened():
             raise ValueError(f"Unable to load the video: {file_path}")
+        # Part of Resize functionality
+        if should_resize and width and height:
+            cap.set(3, width)
+            cap.set(4, height)
         try:
             while cap.isOpened():
                 ret, frame = cap.read()
                 if not ret:
                     break
-                frame = MediaProcessor.rescale_frame(frame)
+                frame = MediaProcessor.resize_or_rescale_frame(frame, should_rescale, scale, should_resize, width, height)
                 cv2.imshow("Processed Video", frame)
                 if cv2.waitKey(20) & 0xFF == ord("d"):
                     break
         finally:
             cap.release()
             cv2.destroyAllWindows()
+    
+    # Resizing and Rescaling Frames
+    # 3 Rescale
+    @staticmethod
+    def rescale_frame(frame, scale: float = 0.50):
+        width = int(frame.shape[1] * scale)
+        height = int(frame.shape[0] * scale)
+        return cv2.resize(frame, (width, height), interpolation=cv2.INTER_AREA)
+    
+    # 4 Resize
+    @staticmethod
+    def resize_frame(frame, width, height):
+        return cv2.resize(frame, (width, height), interpolation=cv2.INTER_AREA)
 
+    @staticmethod
+    def resize_or_rescale_frame(frame, should_rescale=False, scale=0.75, should_resize=False, width=None, height=None):
+        if should_rescale:
+            frame = MediaProcessor.rescale_frame(frame, scale)
+        if should_resize and width and height:
+            frame = MediaProcessor.resize_frame(frame, width, height)
+        return frame
+
+    # Webcam Processing
     @staticmethod
     def process_webcam(img_sample_folder: str) -> None:
         if not os.path.exists(img_sample_folder):
