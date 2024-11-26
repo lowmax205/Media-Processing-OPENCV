@@ -22,7 +22,7 @@ Welcome to **Object Image Processing**, a program to recognize objects using Ope
 - Webcam (optional)
 
 ## 🤝 Contributing
-Contributions are welcome! Please read the contributing guidelines first.
+Contributions are welcome!
 
 ## 📧 Contact
 For any inquiries, please contact me via my profile.
