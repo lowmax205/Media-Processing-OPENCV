@@ -25,4 +25,4 @@ Welcome to **Object Image Processing**, a program to recognize objects using Ope
 Contributions are welcome! Please read the contributing guidelines first.
 
 ## 📧 Contact
-For any inquiries, please contact your email.
+For any inquiries, please contact me via my profile.
