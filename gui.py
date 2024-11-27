@@ -10,7 +10,7 @@ class ImageProcessingApp:
     def __init__(self):
         self.file_path: Optional[str] = None
         self.app = ctk.CTk()
-        self.app.title("Object Image Processing")
+        self.app.title("Media Processing")
         self.processor = basic_image_processing()
         self.should_rescale = ctk.BooleanVar(value=False)
         self.scale_value = ctk.StringVar(value="")
@@ -96,62 +96,83 @@ class ImageProcessingApp:
             width=self.BUTTON_WIDTH,
             command=self._on_file_type_change,
         )
-        self.option_menu.pack(pady=10)
+        self.option_menu.grid(row=0, column=0, columnspan=3, pady=10)
+
+        self.resize_rescale_frame = ctk.CTkFrame(self.basic_tab)
+        self.resize_rescale_label = ctk.CTkLabel(self.resize_rescale_frame, text="Resize and Rescale")
+        self.resize_rescale_label.grid(row=0, column=0, pady=5, padx=10, sticky="w")
 
         self.rescale_checkbox = ctk.CTkCheckBox(
-            self.basic_tab,
+            self.resize_rescale_frame,
             text="Rescale",
             variable=self.should_rescale,
             command=lambda: self._toggle_frame(self.should_rescale, self.scale_frame),
         )
-        self.rescale_checkbox.pack(pady=5)
-        self.scale_frame = ctk.CTkFrame(self.basic_tab)
+        self.rescale_checkbox.grid(row=1, column=0,pady=5, padx=10, sticky="w")
+        self.scale_frame = ctk.CTkFrame(self.resize_rescale_frame)
         self.scale_label = ctk.CTkLabel(self.scale_frame, text="Rescale Factor ")
-        self.scale_label.pack(side="top")
+        self.scale_label.grid(row=0, column=0)
         self.scale_entry = ctk.CTkEntry(
             self.scale_frame,
             textvariable=self.scale_value,
             placeholder_text="Scale (e.g., 0.75)",
         )
-        self.scale_entry.pack(side="left", pady=5, padx=5)
-        self.scale_frame.pack(pady=5)
-        self.scale_frame.pack_forget()
+        self.scale_entry.grid(row=1, column=0, pady=10, padx=10)
+        self.scale_frame.grid(row=2, column=0, pady=10, padx=10, sticky="w")
+        self.scale_frame.grid_remove()
 
         self.resize_checkbox = ctk.CTkCheckBox(
-            self.basic_tab,
+            self.resize_rescale_frame,
             text="Resize",
             variable=self.should_resize,
             command=lambda: self._toggle_frame(self.should_resize, self.size_frame),
         )
-        self.resize_checkbox.pack(pady=5)
-        self.size_frame = ctk.CTkFrame(self.basic_tab)
+        self.resize_checkbox.grid(row=3, column=0,pady=5, padx=10, sticky="w")
+        self.size_frame = ctk.CTkFrame(self.resize_rescale_frame)
 
         self.width_frame = ctk.CTkFrame(self.size_frame)
         self.width_label = ctk.CTkLabel(self.width_frame, text="Width ")
-        self.width_label.pack(side="top")
+        self.width_label.grid(row=0, column=0)
         self.width_entry = ctk.CTkEntry(
             self.width_frame, textvariable=self.width_value, placeholder_text="Width"
         )
-        self.width_entry.pack(side="top", pady=5, padx=5)
-        self.width_frame.pack(side="left", padx=10, pady=10)
+        self.width_entry.grid(row=1, column=0, pady=5, padx=5)
+        self.width_frame.grid(row=0, column=0, padx=10, pady=10)
 
         self.height_frame = ctk.CTkFrame(self.size_frame)
         self.height_label = ctk.CTkLabel(self.height_frame, text="Height ")
-        self.height_label.pack(side="top")
+        self.height_label.grid(row=0, column=0)
         self.height_entry = ctk.CTkEntry(
             self.height_frame, textvariable=self.height_value, placeholder_text="Height"
         )
-        self.height_entry.pack(side="top", pady=5, padx=5)
-        self.height_frame.pack(side="left", padx=10, pady=10)
+        self.height_entry.grid(row=1, column=0, pady=5, padx=5)
+        self.height_frame.grid(row=0, column=1, padx=10, pady=10)
 
-        self.size_frame.pack(pady=10, padx=10)
-        self.size_frame.pack_forget()
+        self.size_frame.grid(row=4, column=0, pady=10, padx=10)
+        self.size_frame.grid_remove()
+
+        self.resize_rescale_frame.grid(row=1, column=0, columnspan=1, sticky="nsew", padx=10, pady=10)
+
+        self.drawing_frame = ctk.CTkFrame(self.basic_tab)
+        self.drawing_label = ctk.CTkLabel(self.drawing_frame, text="Drawing Shapes and Putting Text")
+        self.drawing_label.grid(row=0, column=0, pady=5, padx=10, sticky="w")
+        
+        self.checkboxes = []
+        for i in range(1, 6):
+            checkbox = ctk.CTkCheckBox(self.drawing_frame, text=f"Option {i}")
+            checkbox.grid(row=i, column=0, pady=2,padx=10, sticky="w")
+            self.checkboxes.append(checkbox)
+        
+        self.drawing_frame.grid(row=2, column=0, columnspan=1, sticky="w", padx=10, pady=10)
+
+        self.basic_tab.grid_rowconfigure(5, weight=1)
+        self.basic_tab.grid_columnconfigure((0, 1, 2), weight=1)
 
     def _toggle_frame(self, variable, frame):
         if variable.get():
-            frame.pack(pady=5)
+            frame.grid()
         else:
-            frame.pack_forget()
+            frame.grid_remove()
 
     def _create_advanced_widgets(self):
         pass
