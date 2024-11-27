@@ -92,7 +92,7 @@ class ImageProcessingApp:
         self.option_menu = ctk.CTkOptionMenu(
             self.basic_tab,
             variable=self.option_var,
-            values=["Image", "Video", "Webcam"],
+            values=["Image", "Video", "Webcam", "Draw Shapes"],
             width=self.BUTTON_WIDTH,
             command=self._on_file_type_change,
         )
@@ -157,16 +157,21 @@ class ImageProcessingApp:
         self.drawing_label = ctk.CTkLabel(self.drawing_frame, text="Drawing Shapes and Putting Text")
         self.drawing_label.grid(row=0, column=0, pady=5, padx=10, sticky="w")
         
-        self.checkboxes = []
-        for i in range(1, 6):
-            checkbox = ctk.CTkCheckBox(self.drawing_frame, text=f"Option {i}")
-            checkbox.grid(row=i, column=0, pady=2,padx=10, sticky="w")
-            self.checkboxes.append(checkbox)
+        self.draw_buttons = []
+        for i, shape in enumerate(["Rectangle", "Filled Rectangle", "Circle", "Line"]):
+            button = ctk.CTkButton(self.drawing_frame, text=f"Draw {shape}", command=lambda s=i: self._draw_shape(s))
+            button.grid(row=i+1, column=0, pady=2, padx=10, sticky="w")
+            self.draw_buttons.append(button)
         
         self.drawing_frame.grid(row=2, column=0, columnspan=1, sticky="w", padx=10, pady=10)
 
         self.basic_tab.grid_rowconfigure(5, weight=1)
         self.basic_tab.grid_columnconfigure((0, 1, 2), weight=1)
+
+    def _draw_shape(self, shape_index):
+        options = [0] * 4
+        options[shape_index] = 1
+        self.processor.draw_shapes(options)
 
     def _toggle_frame(self, variable, frame):
         if variable.get():
@@ -214,7 +219,7 @@ class ImageProcessingApp:
                 self.process_button.configure(state="disabled")
 
     def _process(self):
-        if not self.file_path:
+        if not self.file_path and self.option_var.get() != "Webcam":
             messagebox.showerror("Error", "No file selected")
             return
 
@@ -233,8 +238,11 @@ class ImageProcessingApp:
                 self.processor.process_video(
                     self.file_path, should_rescale, scale, should_resize, width, height
                 )
-            else:
-                self.processor.process_webcam(self.file_path, scale)
+            elif self.option_var.get() == "Webcam":
+                self.processor.process_webcam(self.file_path)
+            elif self.option_var.get() == "Draw Shapes":
+                options = [checkbox.get() for checkbox in self.checkboxes]
+                self.processor.draw_shapes(options)
             self.upload_button.configure(state="normal")
             self.process_button.configure(state="disabled")
         except ValueError as e:

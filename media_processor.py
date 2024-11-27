@@ -88,28 +88,21 @@ class basic_image_processing:
 
     # Drawing Shapes & Putting Text
     @staticmethod
-    def draw_shapes():
-        # 1 blank image
-        blank = np.zeros((500,500,3), dtype='uint8')
-        cv2.imshow('#1 Blank', blank)
-
-        # 2 point the image a certain color
-        blank[200:300, 300:400] = 0,0,255
-        cv2.imshow('#2 Red', blank)
-
-        # 3 draw a rectangle
-        cv2.rectangle(blank, (0,0), (blank.shape[1]//2, blank.shape[0]//2), (0,255,0), thickness=cv2.FILLED)
-        cv2.imshow('#3 Rectangle Blue', blank)
-
-        # 4 draw a circle
-        cv2.circle(blank, (blank.shape[1]//2, blank.shape[0]//2), 40, (255,0,0), thickness=-1)
-        cv2.imshow('#4 Circle Green', blank)
-
-        # 5 draw a line
-        cv2.line(blank, (0,0), (blank.shape[1]//2, blank.shape[0]//2), (255,255,255), thickness=1)
-        cv2.imshow('#5 Line White', blank)
-
-        cv2.waitKey(0)
+    def draw_shapes(options):
+        cv2.destroyAllWindows()  # Close any previous windows
+        blank = np.zeros((500, 500, 3), dtype='uint8')
+        if options[0]:
+            blank[200:300, 300:400] = 0, 0, 255
+        if options[1]:
+            cv2.rectangle(blank, (0, 0), (blank.shape[1] // 2, blank.shape[0] // 2), (0, 255, 0), thickness=cv2.FILLED)
+        if options[2]:
+            cv2.circle(blank, (blank.shape[1] // 2, blank.shape[0] // 2), 40, (255, 0, 0), thickness=-1)
+        if options[3]:
+            cv2.line(blank, (0, 0), (blank.shape[1] // 2, blank.shape[0] // 2), (255, 255, 255), thickness=1)
+        if any(options):
+            cv2.imshow('Shapes', blank)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
     
     # Webcam Processing
     @staticmethod
