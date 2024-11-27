@@ -20,7 +20,7 @@ class ImageProcessingApp:
         self._create_widgets()
 
     def _create_widgets(self):
-        self.app.grid_rowconfigure(4, weight=1)  # Adjust row index for tabs
+        self.app.grid_rowconfigure(4, weight=1)
         self.app.grid_columnconfigure((0, 1, 2), weight=1)
 
         self.file_label = ctk.CTkLabel(
@@ -71,7 +71,7 @@ class ImageProcessingApp:
         for tab in self.all_tabs:
             tab.grid(
                 row=4, column=0, columnspan=3, sticky="nsew"
-            )  # Adjust row index for tabs
+            )
 
         self._create_basic_widgets()
         self._create_advanced_widgets()
@@ -82,7 +82,7 @@ class ImageProcessingApp:
     def select_tab(self, selected_tab: ctk.CTkFrame):
         selected_tab.grid(
             row=4, column=0, columnspan=3, sticky="nsew"
-        )  # Adjust row index for tabs
+        )
         for tab in self.all_tabs:
             if tab is not selected_tab:
                 tab.grid_forget()
