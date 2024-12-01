@@ -2,6 +2,7 @@ __pycache__/
 img_sample/
 video_sample/
 prototype.py
+sample_code/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
