@@ -1,8 +1,8 @@
-from gui import ImageProcessingApp
+from gui import ProcessingGui
 
 
 def main():
-    app = ImageProcessingApp()
+    app = ProcessingGui()
     app.run()
 
 
