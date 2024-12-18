@@ -2,7 +2,7 @@
 
 import cv2 as cv
 
-img = cv.imread("sample_code/sample_file/bird-sample.jpg")
+img = cv.imread("Photos/pic.jpg")
 cv.imshow("Cats", img)
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)

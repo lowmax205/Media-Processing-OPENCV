@@ -3,7 +3,7 @@
 import cv2 as cv
 import matplotlib.pyplot as plt
 
-img = cv.imread("sample_code/sample_file/bird-sample.jpg")
+img = cv.imread("Photos/pic.jpg")
 cv.imshow("Park", img)
 
 # plt.imshow(img)

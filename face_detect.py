@@ -2,8 +2,8 @@
 
 import cv2 as cv
 
-img = cv.imread("Photos/group 1.jpg")
-cv.imshow("Group of 5 people", img)
+img = cv.imread("Photos/two.jpg")
+cv.imshow("Group of 2 people", img)
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 cv.imshow("Gray People", gray)

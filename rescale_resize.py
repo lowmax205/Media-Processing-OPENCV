@@ -2,7 +2,7 @@
 
 import cv2 as cv
 
-# img = cv.imread("sample_code/sample_file/bird-sample.jpg")
+# img = cv.imread("Photos/pic.jpg")
 # cv.imshow('Cat', img)
 
 
@@ -23,7 +23,7 @@ def changeRes(width, height):
 
 
 # Reading Videos
-capture = cv.VideoCapture("sample_code/sample_file/video_sample.mp4")
+capture = cv.VideoCapture("Videos/video.mp4")
 
 while True:
     isTrue, frame = capture.read()
